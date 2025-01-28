@@ -21,9 +21,15 @@ include('ProductFunction.php')
         <h1 class="text-center text-muted"><u>CRUD Product</u></h1>
 
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-dark mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Order
-        </button>
+        <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-dark mb-2" id="btn-open-order" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Order
+            </button>
+            <form action="" class="d-flex ">
+                <input type="text" class="form-control" placeholder="Search">
+                <button class="btn btn-outline-success">Search</button>
+            </form>
+        </div>
         <table class="table table-hover table-info text-center">
             <tr>
                 <th>ID</th>
@@ -49,36 +55,78 @@ include('ProductFunction.php')
                 </div>
                 <div class="modal-body">
                     <form action="" method="POST">
+                        <input type="hidden" name="updateID" id="updateID_txt">
                         <div class="row">
                             <div class="col-12 mt-3">
                                 <label for="">Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Name" aria-label="Name">
+                                <input type="text" name="name" id="name_txt" class="form-control" placeholder="Name" aria-label="Name">
                             </div>
                             <div class="col-12 mt-3">
                                 <label for="">Email Address</label>
-                                <input type="text" name="email_address" class="form-control" placeholder="Email" aria-label="Email">
+                                <input type="text" name="email_address" id="email_address_txt" class="form-control" placeholder="Email" aria-label="Email">
                             </div>
                             <div class="col-12">
                                 <label for="">Phone Number</label>
-                                <input type="number" name="phone_number" class="form-control" placeholder="PhoneNumber" aria-label="PhoneNumber">
+                                <input type="number" name="phone_number" id="phone_number_txt" class="form-control" placeholder="PhoneNumber" aria-label="PhoneNumber">
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Location</label>
-                                <input type="text" name="location" class="form-control" placeholder="Location" aria-label="Location">
+                                <input type="text" name="location" id="location_txt" class="form-control" placeholder="Location" aria-label="Location">
                             </div>
                             <div class="col-6 mt-3">
                                 <label for="">Product</label>
-                                <input type="text" name="product" class="form-control" placeholder="Product" aria-label="Product">
+                                <input type="text" name="product" id="product_txt" class="form-control" placeholder="Product" aria-label="Product">
                             </div>
                         </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="btn-save" class="btn btn-success">Order</button>
+                    <button type="submit" name="btn-save" id="btn-save" class="btn btn-success">Order</button>
+                    <button type="submit" name="btn-update" id="btn-update" class="btn btn-warning">Update</button>
                 </div>
                 </form>
             </div>
         </div>
     </div>
 </body>
+<script>
+    $(document).ready(function(){
+        $('#btn-open-order').click(function(){
+            $('#btn-update').addClass('d-none');
+            $('#btn-save').removeClass('d-none');
+
+            $('#name_txt').val('');
+            $('#email_address_txt').val('');
+            $('#phone_number_txt').val('');
+            $('#location_txt').val('');
+            $('#product_txt').val('');
+            $('.modal-title').text('Ordering');
+        });
+        $('body').on('click','#btn-open-update',function(){
+            $('#btn-save').addClass('d-none'); 
+            $('#btn-update').removeClass('d-none'); 
+            $('.modal-title').text('Update Ordering');
+
+            var row = $(this).parents('tr');
+            console.log(row);
+
+            var id = $(this).parents('tr').find('td').eq(0).text();
+            var name = $(this).parents('tr').find('td').eq(1).text();
+            var email_address = $(this).parents('tr').find('td').eq(2).text();
+            var phone_number = $(this).parents('tr').find('td').eq(3).text();
+            var location = $(this).parents('tr').find('td').eq(4).text();
+            var product = $(this).parents('tr').find('td').eq(5).text();
+
+            console.log(id+" " +name+" "+email_address+" " +phone_number+" "+location+""+product);
+            
+            $('#updateID_txt').val(id);
+            $('#name_txt').val(name);
+            $('#email_address_txt').val(email_address);
+            $('#phone_number_txt').val(phone_number);
+            $('#location_txt').val(location);
+            $('#product_txt').val(product);
+
+        })
+    });
+</script>
 </html>

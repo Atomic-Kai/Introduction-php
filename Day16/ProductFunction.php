@@ -58,7 +58,10 @@ function getProduct()
                     <td>' . $row['phone_number'] . '</td>
                     <td>' . $row['location'] . '</td>
                     <td>' . $row['product'] . '</td>
-                    <td>
+                    <td class="d-flex justify-content-center">
+                        <button type="button" id="btn-open-update" class="btn btn-outline-secondary mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Update
+                        </button>
                         <form action="" method="POST">
                             <input type="hidden" name="removeID" value="'.$row['id'].'">
                             <button class="btn btn-outline-danger mb-2" name="btn-delete"><i class="bi bi-trash3"></i>Delete</button>
@@ -97,3 +100,33 @@ function deleteProduct() {
     }
 }
 deleteProduct();
+
+function updateProduct(){
+    global $connection;
+    if(isset($_POST['btn-update'])){
+        $name = $_POST['name'];
+        $email_address = $_POST['email_address'];
+        $phone_number = $_POST['phone_number'];
+        $location = $_POST['location'];
+        $product = $_POST['product'];
+        $id = $_POST['updateID'];
+
+        $sql = "UPDATE `productcrud` SET `name`='$name',`email_address`='$email_address',`phone_number`='$phone_number',`location`='$location',`product`='$product' WHERE `id`='$id'";
+    
+        $rs = $connection->query($sql); // execute query
+        if($rs){
+            echo'
+                <script>
+                    $(document).ready(function() {
+                        Swal.fire({
+                            title: "Success",
+                            text: "Order Update Successfully",
+                            icon: "success"
+                        });
+                    })
+                </script>
+            ';
+        }
+    }
+}
+updateProduct();
